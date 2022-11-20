@@ -1,0 +1,23 @@
+.credit-card {
+    color: white;
+    font-family: Arial;
+    position: relative;
+}
+
+.credit-card .front,
+.credit-card .back {
+    background-color: hsl(200, 80%, 30%);
+    border: hsl(200, 80%, 10%);
+    border-radius: .5rem;
+    width: 325px;
+    height: 150px;
+    padding: .75rem 1rem;
+    margin: 1rem;
+    padding-bottom: 1.25rem;
+}
+
+.credit-card .front {}
+.credit-card .card-data-row {
+    display: flex;
+    margin-bottom: auto;
+}
