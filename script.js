@@ -17,8 +17,9 @@ document.addEventListener("keydown", (e) => {
 
   switch (key) {
     case "ArrowLeft":
-      // the selection of input on the start [cursor]
+      if (input.previousElementSibling == null) return;
       if (input.selectionStart === 0 && input.selectionEnd === 0) {
+        // the selection of input on the start [cursor]
         const prev = input.previousElementSibling;
         prev.focus();
         prev.setSelectionRange(prev.value.length - 1, prev.value.length - 1);
@@ -26,6 +27,7 @@ document.addEventListener("keydown", (e) => {
       }
       break;
     case "ArrowRight":
+      if (input.nextElementSibling == null) return;
       // the selection of input on the start [cursor]
       if (
         input.selectionStart === input.value.length &&
@@ -38,11 +40,13 @@ document.addEventListener("keydown", (e) => {
       }
       break;
     case "Delete":
+      //if we are at the end of input
       if (
         input.selectionStart === input.value.length &&
         input.selectionEnd === input.value.length
       ) {
         const next = input.nextElementSibling;
+        // al chars expet the first one it going to remove
         next.value = next.value.substring(1, next.value.length);
         next.focus();
         next.setSelectionRange(0, 0);
@@ -99,6 +103,7 @@ function onInputChange(input, newValue) {
   }
 }
 
+//12345678
 function updateInputValue(input, extraValue, start = 0, end = 0) {
   const newValue = `${input.value.substring(
     0,
@@ -106,11 +111,11 @@ function updateInputValue(input, extraValue, start = 0, end = 0) {
   )}${extraValue}${input.value.substring(end, 4)}`; // get the not select at the end;
   input.value = newValue.substring(0, 4);
 
-  console.log(input.value);
+  //added new information to next input
   if (newValue > 4) {
     const next = input.nextElementSibling;
     if (next == null) return;
-    updateInputValue(next, newValue.substring(4));
+    updateInputValue(next, newValue.substring(4)); //5678
   }
 }
 
@@ -120,7 +125,9 @@ function focusInput(input, dataLength) {
 
   // if we had more chars to add and current input has input after
   while (addedChars > 4 && currentInput.nextElementSibling != null) {
+    console.log(addedChars);
     addedChars -= 4;
+
     currentInput = currentInput.nextElementSibling;
   }
   if (addedChars > 4) addedChars = 4;
